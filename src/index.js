@@ -1,3 +1,13 @@
+/** I tried writing code that was easy to read, DRY, and structured in a short and efficient way.
+    I know that this isn't ideal, as it is, and that's where I'm wanting feedback
+    I encourage you to be as critical as possible. I can't be the best with anything less **/
+
+//  ** Is this code readable? //
+  //  ** How are my variable names? //
+  //  ** Where could I have used shorthand for more readable code? //
+  //  ** Is the overall structure (placement of variables at top, then function, event listeners, etc.) good? //
+
+// ** Am I declaring these constants correctly? //
 const IMG_URL = "https://dog.ceo/api/breeds/image/random/4"
 const BREED_URL = 'https://dog.ceo/api/breeds/list/all'
 
@@ -6,7 +16,7 @@ const pickRdmColor = () => {
   return `rgb(${rdmVal()}, ${rdmVal()}, ${rdmVal()})`
 }
 
-const hasSubBreed = (breed) => breed.length > 0 ? true : false;
+const hasSubBreed = breed => breed.length > 0 ? true : false;
 
 const displayImages = data => {
   const imgUrls = data.message;
@@ -19,21 +29,20 @@ const displayImages = data => {
 }
 
 const constructBreedList = data => {
-  // debugger;
   const breedData = data.message;
   const dogBreedsList = document.querySelector('#dogBreeds');
   for (const breed in breedData) {
     let subBreed = "";
     if (hasSubBreed(breedData[breed])) {
-      breedData[breed].forEach((subBreed) => {
-        // this is DRY
+      breedData[breed].forEach((subBreed) => {  // ** How to refactor this callback to make code DRY? //
+        // this is NOT DRY
         const newBreedLi = document.createElement('li');
         newBreedLi.textContent = `${ (subBreed)? subBreed : "" } ${breed}`;
         newBreedLi.addEventListener('click', e => e.target.style.color = pickRdmColor())
         dogBreedsList.appendChild(newBreedLi);
       })
     } else {
-      // this is DRY
+      // this is NOT DRY
     const newBreedLi = document.createElement('li');
     newBreedLi.textContent = `${ (subBreed)? subBreed : "" } ${breed}`;
     newBreedLi.addEventListener('click', e => e.target.style.color = pickRdmColor())
@@ -41,7 +50,6 @@ const constructBreedList = data => {
     }
   }
 }
-
 
 fetch(IMG_URL)
   .then(res => res.json())
